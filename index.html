@@ -1,0 +1,538 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>MacDonaldo</title>
+    <link rel="icon" href="image/mcdonald-logo-removebg-preview.png" type="image/png">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"/>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <style>
+      body {
+      background-color: #fff8e1;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    .header h1 {
+      font-size: 3rem;
+      letter-spacing: 1px;
+    }
+
+    .menu-item {
+      background-color: #fff;
+      border: 2px solid #ffe082;
+      border-radius: 15px;
+      padding: 15px;
+      text-align: center;
+      margin-bottom: 20px;
+      transition: transform 0.2s;
+    }
+    .menu-item:hover {
+      transform: scale(1.03);
+    }
+
+    .menu-item img {
+      height: 150px;
+      object-fit: cover;
+      border-radius: 10px;
+      margin-bottom: 10px;
+    }
+
+    .menu-item div {
+      font-weight: 600;
+      color: #333;
+    }
+
+    .menu-item .form-control {
+      max-width: 80px;
+      margin: 0 auto;
+    }
+
+    .menu-item .btn {
+      background-color: #d01012;
+      border: none;
+      color: white;
+      width: 100%;
+      font-weight: 600;
+      transition: background-color 0.2s;
+    }
+    .menu-item .btn:hover {
+      background-color: #a90e10;
+    }
+
+    .category-title {
+      font-size: 1.8rem;
+      color: #d01012;
+      border-left: 8px solid #ffc107;
+      padding-left: 10px;
+      margin-top: 40px;
+      margin-bottom: 20px;
+    }
+
+    .receipt-box {
+      background-color: #fffbea;
+      border: 2px solid #ffc107;
+      border-radius: 15px;
+      padding: 20px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .cart-title {
+      font-size: 2rem;
+      text-align: center;
+      color: #d01012;
+      margin-bottom: 20px;
+    }
+
+    #receipt-items li {
+      border-bottom: 1px dashed #ccc;
+      padding: 8px 0;
+      font-size: 0.95rem;
+    }
+
+    #total {
+      font-size: 1.3rem;
+      color: #d01012;
+    }
+
+    #change {
+      color: green;
+    }
+
+    #payment-method, #payment-amount {
+      border: 2px solid #ffc107;
+      border-radius: 10px;
+    }
+
+    #order-type-section {
+      background: #fffde7;
+      border: 2px dashed #ffc107;
+      border-radius: 15px;
+      padding: 20px;
+      margin-top: 20px;
+      text-align: center;
+    }
+
+    .form-check-label {
+      margin-left: 6px;
+      font-weight: 600;
+    }
+
+    #payment-method {
+      margin-bottom: 10px;
+    }
+
+    #print-receipt {
+      background-color: #d01012;
+      color: white;
+      font-size: 1.2rem;
+      font-weight: bold;
+      padding: 10px;
+      border-radius: 10px;
+      border: none;
+      transition: background-color 0.3s;
+    }
+
+    #print-receipt:hover {
+      background-color: #a90e10;
+    }
+    #order-type-section {
+      margin-top: 10px;
+      margin-bottom: 20px;
+    }
+    #startOrderBtn {
+      background-color: #ffc107; 
+      color: #000;
+      font-weight: bold;
+      border: none;
+      border-radius: 12px;
+      padding: 12px 24px;
+      font-size: 1.1rem;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    #startOrderBtn:hover {
+      background-color: #e0a800;
+      transform: translateY(-2px);
+      box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15);
+    }
+
+    #startOrderBtn:active {
+      transform: translateY(0);
+      box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
+    }
+    </style>
+  </head>
+  <body class="bg-light">
+
+    <div class="container py-4">
+      <div class="header text-center mb-4">
+        <h1 class="fw-bold">
+          <span style="color: #d9230f;">MacDonaldo</span><span style="color: #ffc107;">Menu</span></h1>
+      </div>
+      
+      <button class="btn btn-warning mb-3" id="startOrderBtn">Start Order</button>
+      <div class="container" id="order-type-section">
+        <h2 class="text-center mb-4">Select Order Type</h2>
+        <div class="d-flex justify-content-center mb-3">
+          <div class="form-check mx-2">
+            <input class="form-check-input" type="radio" name="orderType" id="dineIn" value="Dine-In" disabled>
+            <label class="form-check-label" for="dineIn">Dine-In</label>
+          </div>
+          <div class="form-check mx-2">
+            <input class="form-check-input" type="radio" name="orderType" id="takeOut" value="Take-Out">
+            <label class="form-check-label" for="takeOut">Take-Out</label>
+          </div>
+        </div>
+      </div>
+      
+      <div class="container mt-4">
+      </div>
+
+        <div class="row">
+         
+          <div class="col-lg-8">
+            <div id="menu">
+             
+              <section1>
+                <h4 class="category-title">Breakfast</h4>
+                <div class="row">
+                  <div class="col-sm-6 col-lg-4">
+                    <div class="menu-item" data-name="Egg McMuffin with Hash Brown Brown Meal" data-price="163">
+                      <img src="image/b1.webp" class="img-fluid rounded mb-2" alt="Egg McMuffin with Hash Brown Brown Meal">
+                      <div>Egg McMuffin with Hash Brown Brown Meal  - ₱163</div>
+                      <input type="number" class="form-control form-control-sm mt-1 quantity text-center" value="1" min="1">
+                      <button class="btn btn-sm btn-success mt-2 add-to-cart">Add</button>
+                    </div>
+                  </div>
+                  <div class="col-sm-6 col-lg-4">
+                    <div class="menu-item" data-name="Sausage McMuffin w/ Egg & Hash Brown Meal" data-price="173">
+                      <img src="image/b2.jpg" class="img-fluid rounded mb-2" alt="Sausage McMuffin w/ Egg & Hash Brown Meal">
+                      <div>Sausage McMuffin w/ Egg & Hash Brown Meal - ₱173</div>
+                      <input type="number" class="form-control form-control-sm mt-1 quantity text-center" value="1" min="1">
+                      <button class="btn btn-sm btn-success mt-2 add-to-cart">Add</button>
+                    </div>
+                  </div>
+                  <div class="col-sm-6 col-lg-4">
+                    <div class="menu-item" data-name="Cheesy Eggdesal w/ Hash Brown Meal" data-price="103">
+                      <img src="image/b3.jpg" class="img-fluid rounded mb-2" alt="Cheesy Eggdesal w/ Hash Brown Meal">
+                      <div>Cheesy Eggdesal w/ Hash Brown Meal - ₱103</div>
+                      <input type="number" class="form-control form-control-sm mt-1 quantity text-center" value="1" min="1">
+                      <button class="btn btn-sm btn-success mt-2 add-to-cart">Add</button>
+                    </div>
+                  </div>
+                </div>
+              </section1>
+              <section2>
+                <h4 class="category-title">Burgers</h4>
+                <div class="row">
+                  <div class="col-sm-6 col-lg-4">
+                    <div class="menu-item" data-name="Big Mac" data-price="182">
+                      <img src="image/burger1.jpg" class="img-fluid rounded mb-2" alt="Big Mac">
+                      <div>Big Mac - ₱182</div>
+                      <input type="number" class="form-control form-control-sm mt-1 quantity text-center" value="1" min="1">
+                      <button class="btn btn-sm btn-success mt-2 add-to-cart">Add</button>
+                    </div>
+                  </div>
+                  <div class="col-sm-6 col-lg-4">
+                    <div class="menu-item" data-name="Burger McDo" data-price="44">
+                      <img src="image/burger2.jpg" class="img-fluid rounded mb-2" alt="Burger McDo">
+                      <div>Burger McDo - ₱44</div>
+                      <input type="number" class="form-control form-control-sm mt-1 quantity text-center" value="1" min="1">
+                      <button class="btn btn-sm btn-success mt-2 add-to-cart">Add</button>
+                    </div>
+                  </div>
+                  <div class="col-sm-6 col-lg-4">
+                    <div class="menu-item" data-name="Crispy Chicken Sandwich" data-price="70">
+                      <img src="image/burger3.jpg" class="img-fluid rounded mb-2" alt="Crispy Chicken Sandwich">
+                      <div>Chicken Sandwich - ₱70</div>
+                      <input type="number" class="form-control form-control-sm mt-1 quantity text-center" value="1" min="1">
+                      <button class="btn btn-sm btn-success mt-2 add-to-cart">Add</button>
+                    </div>
+                  </div>
+                </div>
+              </section2>
+              <section3>
+                <h4 class="category-title">Chicken & Platters</h4>
+                <div class="row">
+                  <div class="col-sm-6 col-lg-4">
+                    <div class="menu-item" data-name="1-pc Chicken McDo" data-price="92">
+                      <img src="image/meal1.jpg" class="img-fluid rounded mb-2" alt="Chicken McDo">
+                      <div>1pc Chicken McDo - ₱92</div>
+                      <input type="number" class="form-control form-control-sm mt-1 quantity text-center" value="1" min="1">
+                      <button class="btn btn-sm btn-success mt-2 add-to-cart">Add</button>
+                    </div>
+                  </div>
+                  <div class="col-sm-6 col-lg-4">
+                    <div class="menu-item" data-name="Chicken Fillet Alaking (6pcs)" data-price="89">
+                      <img src="image/meal2.jpg" class="img-fluid rounded mb-2" alt="Chicken Fillet Alaking">
+                      <div>Chicken Alaking - ₱89</div>
+                      <input type="number" class="form-control form-control-sm mt-1 quantity text-center" value="1" min="1">
+                      <button class="btn btn-sm btn-success mt-2 add-to-cart">Add</button>
+                    </div>
+                  </div>
+                  <div class="col-sm-6 col-lg-4">
+                    <div class="menu-item" data-name="McNuggets (6pcs)" data-price="103">
+                      <img src="image/meal3.jpg" class="img-fluid rounded mb-2" alt="McNuggets (6pcs)">
+                      <div>McNuggets (6pcs) - ₱103</div>
+                      <input type="number" class="form-control form-control-sm mt-1 quantity text-center" value="1" min="1">
+                      <button class="btn btn-sm btn-success mt-2 add-to-cart">Add</button>
+                    </div>
+                  </div>
+                </div>
+              </section3>
+              <section4>
+                <h4 class="category-title">Fries</h4>
+                <div class="row">
+                  <div class="col-sm-6 col-lg-4">
+                    <div class="menu-item" data-name="Regular Fries" data-price="72">
+                      <img src="image/regular.jpg" class="img-fluid rounded mb-2" alt="Regular Fries">
+                      <div>Regular Fries - ₱72</div>
+                      <input type="number" class="form-control form-control-sm mt-1 quantity text-center" value="1" min="1">
+                      <button class="btn btn-sm btn-success mt-2 add-to-cart">Add</button>
+                    </div>
+                  </div>
+                  <div class="col-sm-6 col-lg-4">
+                    <div class="menu-item" data-name="Medium Fries" data-price="89">
+                      <img src="image/medium.jpg" class="img-fluid rounded mb-2" alt="Medium Fries">
+                      <div>Medium Fries - ₱89</div>
+                      <input type="number" class="form-control form-control-sm mt-1 quantity text-center" value="1" min="1">
+                      <button class="btn btn-sm btn-success mt-2 add-to-cart">Add</button>
+                    </div>
+                  </div>
+                  <div class="col-sm-6 col-lg-4">
+                    <div class="menu-item" data-name="BFF Fries" data-price="174">
+                      <img src="image/BFF.jpg" class="img-fluid rounded mb-2" alt="BFF Fries">
+                      <div>BFF Fries - ₱174</div>
+                      <input type="number" class="form-control form-control-sm mt-1 quantity text-center" value="1" min="1">
+                      <button class="btn btn-sm btn-success mt-2 add-to-cart">Add</button>
+                    </div>
+                  </div>
+                </div>
+              </section4>
+              <section5>
+                <h4 class="category-title">Drinks & Dessert</h4>
+                <div class="row">
+                  <div class="col-sm-6 col-lg-4">
+                    <div class="menu-item" data-name="Coke McFloat" data-price="59">
+                      <img src="image/drink1.jpg" class="img-fluid rounded mb-2" alt="Coke McFloat">
+                      <div>Coke McFloat - ₱59</div>
+                      <input type="number" class="form-control form-control-sm mt-1 quantity text-center" value="1" min="1">
+                      <button class="btn btn-sm btn-success mt-2 add-to-cart">Add</button>
+                    </div>
+                  </div>
+                  <div class="col-sm-6 col-lg-4">
+                    <div class="menu-item" data-name="Hot Fudge Sundae" data-price="57">
+                      <img src="image/dessert1.jpg" class="img-fluid rounded mb-2" alt="Hot Fudge Sundae">
+                      <div>Hot Fudge Sundae - ₱57</div>
+                      <input type="number" class="form-control form-control-sm mt-1 quantity text-center" value="1" min="1">
+                      <button class="btn btn-sm btn-success mt-2 add-to-cart">Add</button>
+                    </div>
+                  </div>
+                  <div class="col-sm-6 col-lg-4">
+                    <div class="menu-item" data-name="Coke Zero" data-price="77">
+                      <img src="image/drink2.jpg" class="img-fluid rounded mb-2" alt="Coke Zero">
+                      <div>Coke Zero - ₱77</div>
+                      <input type="number" class="form-control form-control-sm mt-1 quantity text-center" value="1" min="1">
+                      <button class="btn btn-sm btn-success mt-2 add-to-cart">Add</button>
+                    </div>
+                  </div>
+                </div>
+              </section5>
+              <section6>
+                <h4 class="category-title">McCafe</h4>
+                <div class="row">
+                  <div class="col-sm-6 col-lg-4">
+                    <div class="menu-item" data-name="McCafe Americano" data-price="88">
+                      <img src="image/cafe1.jpg" class="img-fluid rounded mb-2" alt="Americano">
+                      <div>McCafe Americano - ₱88</div>
+                      <input type="number" class="form-control form-control-sm mt-1 quantity text-center" value="1" min="1">
+                      <button class="btn btn-sm btn-success mt-2 add-to-cart">Add</button>
+                    </div>
+                  </div>
+                  <div class="col-sm-6 col-lg-4">
+                    <div class="menu-item" data-name="McCafe Coffee Float" data-price="79">
+                      <img src="image/cafe2.jpg" class="img-fluid rounded mb-2" alt="Coffee Float">
+                      <div>McCafe Coffee Float - ₱79</div>
+                      <input type="number" class="form-control form-control-sm mt-1 quantity text-center" value="1" min="1">
+                      <button class="btn btn-sm btn-success mt-2 add-to-cart">Add</button>
+                    </div>
+                  </div>
+                  <div class="col-sm-6 col-lg-4">
+                    <div class="menu-item" data-name="Iced Coffee Original" data-price="53">
+                      <img src="image/cafe3.jpg" class="img-fluid rounded mb-2" alt="Iced Coffee Original">
+                      <div>Iced Coffee Original - ₱53</div>
+                      <input type="number" class="form-control form-control-sm mt-1 quantity text-center" value="1" min="1">
+                      <button class="btn btn-sm btn-success mt-2 add-to-cart">Add</button>
+                    </div>
+                  </div>
+                </div>
+              </section6>
+            </div>
+          </div>
+
+        <div class="col-lg-4 mt-4 mt-lg-0">
+          <div class="receipt-box p-3 bg-white rounded shadow-sm">
+            <h4 class="cart-title text-center">Cart</h4>
+            
+            <ul id="receipt-items" class="list-unstyled"></ul>
+            <p id="total" class="fw-bold">Total: ₱0.00</p>
+
+            <div class="mb-2">
+              <label class="form-label">Payment Method:</label>
+              <select class="form-select mb-2" id="payment-method">
+                <option value="cash">Cash</option>
+                <option value="card">Card</option>
+              </select>
+              <input type="number" class="form-control mb-2" id="payment-amount" placeholder="Enter payment amount">
+              <p id="change" class="fw-bold" style="display: none;">Change: ₱0.00</p>
+            </div>
+            <button class="btn btn-danger w-100" id="print-receipt" disabled>Pay Order</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      let total = 0;
+    
+      
+      $(".add-to-cart, #print-receipt").prop("disabled", true);
+      $("input[name='orderType']").prop("disabled", true);
+    
+      
+      $("#startOrderBtn").on("click", function () {
+        $("input[name='orderType']").prop("disabled", false);
+      });
+    
+      
+      $("input[name='orderType']").on("change", function () {
+        $(".add-to-cart, #print-receipt").prop("disabled", false);
+      });
+    
+      $(document).on("click", ".add-to-cart", function () {
+        const item = $(this).closest(".menu-item");
+        const name = item.data("name");
+        const price = parseFloat(item.data("price"));
+        const qty = parseInt(item.find(".quantity").val());
+    
+        if (qty < 1 || isNaN(qty)) {
+          alert("Please enter a valid quantity.");
+          return;
+        }
+    
+        const subtotal = price * qty;
+    
+        const listItem = $(`
+          <li class="d-flex justify-content-between align-items-center border-bottom py-1">
+            <span>${name} x ${qty} = ₱${subtotal.toFixed(2)}</span>
+            <button class="btn btn-sm btn-danger remove-item" data-subtotal="${subtotal}">✖</button>
+          </li>
+        `);
+    
+        $("#receipt-items").append(listItem);
+        total += subtotal;
+        updateTotal();
+      });
+    
+      $(document).on("click", ".remove-item", function () {
+        const subtotal = parseFloat($(this).data("subtotal"));
+        total -= subtotal;
+        $(this).parent().remove();
+        updateTotal();
+      });
+    
+      function updateTotal() {
+        $("#total").text(`Total: ₱${total.toFixed(2)}`);
+      }
+    
+      $("#print-receipt").on("click", function () {
+        const now = new Date();
+        const formattedDate = now.toLocaleString('en-PH', {
+          dateStyle: 'short',
+          timeStyle: 'short',
+        });
+    
+        const paymentMethod = $("#payment-method").val();
+        const paymentAmount = parseFloat($("#payment-amount").val());
+    
+        if (isNaN(paymentAmount) || paymentAmount < total) {
+          alert("Invalid or insufficient payment.");
+          return;
+        }
+    
+        const change = paymentAmount - total;
+    
+        const receiptItems = $("#receipt-items li").map(function () {
+          const text = $(this).contents().map(function () {
+            return this.nodeType === 3 ? this.textContent : $(this).text();
+          }).get().join('').trim();
+    
+          const match = text.match(/(.+?) x (\d+) = ₱([\d.]+)/);
+          if (match) {
+            const [, item, qty, sub] = match;
+            return `
+              <tr>
+                <td>${item}</td>
+                <td style="text-align:center;">${qty}</td>
+                <td style="text-align:right;">₱${parseFloat(sub).toFixed(2)}</td>
+              </tr>`;
+          }
+          return "";
+        }).get().join("");
+    
+        const selectedOrderType = $("input[name='orderType']:checked").val() || "N/A";
+    
+        const receiptHTML = `
+          <div style="font-family: Arial, sans-serif; max-width: 350px; margin: auto; padding: 20px; border-radius: 8px;">
+            <div style="text-align: center;">
+              <h2 style="color: #d9230f;">Mac<span style="color:#ffc107;">Donaldo</span></h2>
+              <p>Receipt</p>
+              <p style="font-size: 12px;">${formattedDate}</p>
+              <p style="font-size: 12px;"><strong>Order Type:</strong> ${selectedOrderType}</p>
+            </div>
+            <hr>
+            <table style="width:100%; font-size: 14px;">
+              <thead>
+                <tr>
+                  <th style="text-align:left;">Item</th>
+                  <th>Qty</th>
+                  <th style="text-align:right;">Subtotal</th>
+                </tr>
+              </thead>
+              <tbody>
+                ${receiptItems}
+              </tbody>
+            </table>
+            <hr>
+            <p style="text-align:right;">Total: <strong>₱${total.toFixed(2)}</strong></p>
+            <p style="text-align:right;">${paymentMethod === 'cash' ? 'Cash' : 'Card'}: <strong>₱${paymentAmount.toFixed(2)}</strong></p>
+            <p style="text-align:right;">Change: <strong>₱${change.toFixed(2)}</strong></p>
+            <hr>
+            <p style="text-align:center; color: #ffc107; font-weight: bold;">Thank you for ordering!</p>
+          </div>
+        `;
+    
+        const printWindow = window.open("", "_blank");
+        printWindow.document.write(`
+          <html>
+            <head><title>Receipt</title></head>
+            <body>${receiptHTML}</body>
+          </html>
+        `);
+        printWindow.document.close();
+        printWindow.print();
+    
+        $("#receipt-items").empty();
+        $("#payment-amount").val("");
+        $("#change").text("").hide();
+        total = 0;
+        updateTotal();
+    
+        $(".add-to-cart, #print-receipt").prop("disabled", true);
+        $("input[name='orderType']").prop("checked", false).prop("disabled", true);
+      });
+    </script>
+  </body>
+</html>
